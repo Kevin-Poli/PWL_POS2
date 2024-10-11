@@ -19,6 +19,8 @@ class UserModel extends Model
         'nama',
         'password'
     ];
+    protected $hidden =['password'];
+    protected $casts =['password' => 'hashed'];
 
     public function level(): BelongsTo{
         return $this->belongsTo(LevelModel::class,'level_id','level_id');

@@ -2,6 +2,7 @@
 
 use App\Htpp\Controller\UserController as ControllerUserController;
 use App\Http\Controllers\BarangController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\StokController;
@@ -114,3 +115,9 @@ Route::group(['prefix' => 'supplier'], function () {
     Route::delete('/{id}/delete_ajax', [SupplierController::class, 'delete_ajax']);
     Route::delete('/{id}', [SupplierController::class, 'destroy']); // menghapus data supplier
 });
+
+Route::pattern('id','[0-9]+');
+
+Route::get('login',[AuthController::class,'login'])-> name('login');
+Route::get('login',[AuthController::class,'logout'])-> middleware('auth');
+Route::post('login',[AuthController::class,'postlogin']);
