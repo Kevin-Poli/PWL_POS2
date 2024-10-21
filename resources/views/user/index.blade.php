@@ -72,7 +72,7 @@
                     // nomor urut dari laravel datatable addIndexColumn()
                     data: "DT_RowIndex",
                     className: "text-center",
-                    orderable: false,
+                    orderable: true,
                     searchable: false
                 }, {
                     data: "username",
