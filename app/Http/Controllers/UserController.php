@@ -6,7 +6,9 @@ use App\Models\LevelModel;
 use App\Models\User;
 use App\Models\UserModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTablesEditor;
 use Yajra\DataTables\Facades\DataTables;
@@ -220,40 +222,76 @@ confirm(\'Apakah Anda yakit menghapus data ini?\');">Hapus</button></form>';*/
     {
         // cek apakah request dari ajax
         if ($request->ajax() || $request->wantsJson()) {
+
             $rules = [
-                'level_id' => 'required|integer',
-                'username' => 'required|max:20|unique:m_user,username,' . $id . ',user_id',
-                'nama' => 'required|max:100',
-                'password' => 'nullable|min:6|max:20'
+                'level_id'   => 'required|integer',
+                'username'   => 'required|max:20|unique:m_user,username,' . $id . ',user_id',
+                'nama'       => 'required|max:100',
+                'password'   => 'nullable|min:6|max:20',
+                'file_profil' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
             ];
-            // use Illuminate\Support\Facades\Validator;
+
             $validator = Validator::make($request->all(), $rules);
 
             if ($validator->fails()) {
                 return response()->json([
-                    'status' => false, // respon json, true: berhasil, false: gagal
-                    'message' => 'Validasi gagal.',
-                    'msgField' => $validator->errors() // menunjukkan field mana yang error
+                    'status'   => false,
+                    'message'  => 'Validasi gagal.',
+                    'msgField' => $validator->errors()
                 ]);
             }
+
+            // Prepare the request data
+            $newReq = [
+                'level_id' => $request->level_id,
+                'username' => $request->username,
+                'nama'     => $request->nama,
+            ];
+
             $check = UserModel::find($id);
             if ($check) {
-                if (!$request->filled('password')) { // jika password tidak diisi, maka hapus dari request
-                    $request->request->remove('password');
+                // If password is provided, add it to the update request
+                if ($request->filled('password')) {
+                    $newReq['password'] = $request->password; // hash the password
                 }
-                $check->update($request->all());
+
+                // Handle profile image file upload
+                if ($request->hasFile('file_profil')) {
+                    // Define the file name using the user's id and the file extension
+                    $fileExtension = $request->file('file_profil')->getClientOriginalExtension();
+                    $fileName = 'profile_' . Auth::user()->user_id . '.' . $fileExtension;
+
+                    // Check if an existing profile picture exists and delete it
+                    $oldFile = 'profile_pictures/' . $fileName;
+                    if (Storage::disk('public')->exists($oldFile)) {
+                        Storage::disk('public')->delete($oldFile);
+                    }
+
+                    // Store the new file with the user id as the file name
+                    $path = $request->file('file_profil')->storeAs('profile_pictures', $fileName, 'public');
+                    
+                    // Add file name to the update request
+                    $newReq['image_profile'] = $path;
+                }
+
+                // Update the user data in the database
+                
+                $check->update($newReq);
+                session(['profile_img_path' => Auth::user()->image_profile]);
+
+
                 return response()->json([
-                    'status' => true,
+                    'status'  => true,
                     'message' => 'Data berhasil diupdate'
                 ]);
             } else {
                 return response()->json([
-                    'status' => false,
+                    'status'  => false,
                     'message' => 'Data tidak ditemukan'
                 ]);
             }
         }
-        return redirect('/');
+        // return redirect('/');
     }
 
     public function confirm_ajax(String $id){

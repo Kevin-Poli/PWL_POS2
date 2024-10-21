@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Register Pengguna</title>
+    <title>AdminLTE 3 | Registration Page (v2)</title>
+
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -18,54 +19,71 @@
     <link rel="stylesheet" href="{{ asset('adminlte/dist/css/adminlte.min.css') }}">
 </head>
 
-<body class="hold-transition login-page">
-    <div class="login-box">
-        <!-- /.login-logo -->
+<body class="hold-transition register-page">
+    <div class="register-box">
         <div class="card card-outline card-primary">
-            <div class="card-header text-center"><a href="{{ url('/') }}" class="h1"><b>Admin</b>LTE</a></div>
+            <div class="card-header text-center">
+                <a href="{{ url('/') }}" class="h1"><b>Admin</b>LTE</a>
+            </div>
             <div class="card-body">
-                <p class="login-box-msg">Sign up to start your session</p>
-                <form action="{{ url('register') }}" method="POST" id="form-register">
+                <p class="login-box-msg">Register a new staff</p>
+
+                <form action="{{ url('register') }}" method="post" id="form-register">
                     @csrf
-                    <div class="form-group">
-                        <label>Level Pengguna</label>
-                        <select name="level_id" id="level_id" class="form-control" required>
-                            <option value="">- Pilih Level -</option>
-                            @foreach ($level as $l)
-                                <option value="{{ $l->level_id }}">{{ $l->level_nama }}</option>
-                            @endforeach
-                        </select>
-                        <small id="error-level_id" class="error-text form-text text-danger"></small>
+                    <div class="input-group mb-3">
+                        <input type="text" id="username" name="username" class="form-control"
+                            placeholder="Username">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-envelope"></span>
+                            </div>
+                        </div>
+                        <small id="error-username" class="error-text text-danger"></small>
+                        @error('username')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
                     </div>
-                    <div class="form-group">
-                        <label>Username</label>
-                        <input value="" type="text" name="username" id="username" class="form-control" required>
-                        <small id="error-username" class="error-text form-text text-danger"></small>
+                    <div class="input-group mb-3">
+                        <input type="text" id="name" name="name" class="form-control" placeholder="Nama">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-user"></span>
+                            </div>
+                        </div>
+                        <small id="error-name" class="error-text text-danger"></small>
+                        @error('name')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
                     </div>
-                    <div class="form-group">
-                        <label>Nama</label>
-                        <input value="" type="text" name="nama" id="nama" class="form-control" required>
-                        <small id="error-nama" class="error-text form-text text-danger"></small>
-                    </div>
-                    <div class="form-group">
-                        <label>Password</label>
-                        <input value="" type="password" name="password" id="password" class="form-control" required>
-                        <small id="error-password" class="error-text form-text text-danger"></small>
+                    <div class="input-group mb-3">
+                        <input type="password" id="password" name="password" class="form-control"
+                            placeholder="Password">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                        <small id="error-password" class="error-text text-danger"></small>
+                        @error('password')
+                            <small class="form-text text-danger">{{ $message }}</small>
+                        @enderror
                     </div>
                     <div class="row">
+                        <div class="col-8">
+                        </div>
                         <!-- /.col -->
                         <div class="col-4">
-                            <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
+                            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
                         </div>
                         <!-- /.col -->
                     </div>
                 </form>
+                <a href="{{ url('login') }}" class="text-center">Sudah punya akun</a>
             </div>
-            <!-- /.card-body -->
-        </div>
-        <!-- /.card -->
+            <!-- /.form-box -->
+        </div><!-- /.card -->
     </div>
-    <!-- /.login-box -->
+    <!-- /.register-box -->
 
     <!-- jQuery -->
     <script src="{{ asset('adminlte/plugins/jquery/jquery.min.js') }}"></script>
@@ -78,78 +96,90 @@
     <script src="{{ asset('adminlte/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('adminlte/dist/js/adminlte.min.js') }}"></script>
-    <script>
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        $(document).ready(function() {
-            $("#form-register").validate({
-                rules: {
-                    level_id: {
-                    required: true,
-                    number: true
-                },
-                username: {
-                    required: true,
-                    minlength: 3,
-                    maxlength: 20
-                },
-                nama: {
-                    required: true,
-                    minlength: 3,
-                    maxlength: 100
-                },
-                password: {
-                    required: true,
-                    minlength: 6,
-                    maxlength: 20
-                }
-                },
-                submitHandler: function(form) { // ketika valid, maka bagian yg akan dijalankan
-                    $.ajax({
-                        url: form.action,
-                        type: form.method,
-                        data: $(form).serialize(),
-                        success: function(response) {
-                            if (response.status) { // jika sukses
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Berhasil',
-                                    text: response.message,
-                                }).then(function() {
-                                    window.location = response.redirect;
-                                });
-                            } else { // jika error
-                                $('.error-text').text('');
-                                $.each(response.msgField, function(prefix, val) {
-                                    $('#error-' + prefix).text(val[0]);
-                                });
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Terjadi Kesalahan',
-                                    text: response.message
-                                });
-                            }
-                        }
-                    });
-                    return false;
-                },
-                errorElement: 'span',
-                errorPlacement: function(error, element) {
-                    error.addClass('invalid-feedback');
-                    element.closest('.input-group').append(error);
-                },
-                highlight: function(element, errorClass, validClass) {
-                    $(element).addClass('is-invalid');
-                },
-                unhighlight: function(element, errorClass, validClass) {
-                    $(element).removeClass('is-invalid');
-                }
-            });
-        });
-    </script>
+
+    <script> 
+    function modalAction(url = ''){ 
+        $('#myModal').load(url,function(){ 
+            $('#myModal').modal('show'); 
+        }); 
+    } 
+ 
+var tableBarang; 
+$(document).ready(function(){ 
+    tableBarang = $('#table-barang').DataTable({ 
+        processing: true, 
+        serverSide: true, 
+        ajax: { 
+            "url": "{{ url('barang/list') }}", 
+            "dataType": "json", 
+            "type": "POST", 
+            "data": function (d) { 
+                d.filter_kategori = $('.filter_kategori').val(); 
+            } 
+        }, 
+        columns: [{ 
+                data: "No_Urut",  
+                className: "text-center", 
+                width: "5%", 
+                orderable: false, 
+                searchable: false 
+            },{ 
+                data: "barang_kode",  
+                className: "", 
+                width: "10%", 
+                orderable: true, 
+                searchable: true 
+            },{ 
+                data: "barang_nama",  
+                className: "", 
+                width: "37%", 
+                orderable: true, 
+                searchable: true, 
+            },{ 
+                data: "harga_beli",  
+                className: "", 
+                width: "10%", 
+                orderable: true, 
+                searchable: false, 
+                render: function(data, type, row){ 
+                    return new Intl.NumberFormat('id-ID').format(data); 
+                } 
+            },{ 
+                data: "harga_jual",  
+                className: "", 
+                width: "10%",
+                orderable: true, 
+                searchable: false, 
+                render: function(data, type, row){ 
+                    return new Intl.NumberFormat('id-ID').format(data); 
+                } 
+            },{ 
+                data: "kategori.kategori_nama",  
+                className: "", 
+                width: "14%", 
+                orderable: true, 
+                searchable: false 
+            },{ 
+                data: "aksi",  
+                className: "text-center", 
+                width: "14%", 
+                orderable: false, 
+                searchable: false 
+            } 
+        ] 
+    }); 
+ 
+    $('#table-barang_filter input').unbind().bind().on('keyup', function(e){ 
+        if(e.keyCode == 13){ // enter key 
+            tableBarang.search(this.value).draw(); 
+        } 
+    }); 
+ 
+    $('.filter_kategori').change(function(){ 
+        tableBarang.draw(); 
+    }); 
+}); 
+</script> 
 </body>
 
 </html>

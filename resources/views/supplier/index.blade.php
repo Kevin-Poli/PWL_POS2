@@ -62,19 +62,19 @@
                     {
                         data: "supplier_kode",
                         className: "",
-                        orderable: false,
+                        orderable: true,
                         searchable: true
                     },
                     {
                         data: "supplier_nama",
                         className: "",
-                        orderable: false,
+                        orderable: true,
                         searchable: true
                     },
                     {
                         data: "supplier_alamat",
                         className: "",
-                        orderable: false,
+                        orderable: true,
                         searchable: true
                     },
                     {
