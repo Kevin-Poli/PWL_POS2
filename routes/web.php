@@ -37,7 +37,7 @@ Route::get('logout', [AuthController::class, 'logout']);
 
 Route::middleware(['auth'])->group(function () {
     //masukkan
-    // Route::get('/', [WelcomeController::class, 'index']);
+    Route::get('/home', [WelcomeController::class, 'index']);
 
     Route::group(['prefix' => 'user'], function () {
         Route::middleware(['authorize:ADM'])->group(function () {
