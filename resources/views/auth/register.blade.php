@@ -19,23 +19,23 @@
     <link rel="stylesheet" href="{{ asset('adminlte/dist/css/adminlte.min.css') }}">
 </head>
 
-<body class="hold-transition register-page">
+<body class="hold-transition register-page" style="background-image: url('https://www.dbs.id/id/iwov-resources/flp/images/Perbedaan-Transaksi-Online-dan-Transaksi-Digital-1404x630.jpg'); background-size: cover; background-position: center;">
     <div class="register-box">
-        <div class="card card-outline card-primary">
+        <div class="card card-outline card-primary" style="background-color: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border-radius: 10px; padding: 20px; box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);">
             <div class="card-header text-center">
-                <a href="{{ url('/') }}" class="h1"><b>Admin</b>LTE</a>
+                <a href="{{ url('/') }}" class="h1" style="color: black;"><b>Admin</b>LTE</a>
             </div>
             <div class="card-body">
-                <p class="login-box-msg">Register a new staff</p>
+                <p class="login-box-msg" style="color: black;">Register a new staff</p>
 
                 <form action="{{ url('register') }}" method="post" id="form-register">
                     @csrf
                     <div class="input-group mb-3">
                         <input type="text" id="username" name="username" class="form-control"
-                            placeholder="Username">
+                            placeholder="Username" style="background-color: rgba(255, 255, 255, 0.2); color: black; border: none;">
                         <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-envelope"></span>
+                            <div class="input-group-text" style="background-color: rgba(255, 255, 255, 0.2);">
+                                <span class="fas fa-envelope" style="color: black;"></span>
                             </div>
                         </div>
                         <small id="error-username" class="error-text text-danger"></small>
@@ -44,10 +44,10 @@
                         @enderror
                     </div>
                     <div class="input-group mb-3">
-                        <input type="text" id="name" name="name" class="form-control" placeholder="Nama">
+                        <input type="text" id="name" name="name" class="form-control" placeholder="Nama" style="background-color: rgba(255, 255, 255, 0.2); color: black; border: none;">
                         <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-user"></span>
+                            <div class="input-group-text" style="background-color: rgba(255, 255, 255, 0.2);">
+                                <span class="fas fa-user" style="color: black;"></span>
                             </div>
                         </div>
                         <small id="error-name" class="error-text text-danger"></small>
@@ -57,10 +57,10 @@
                     </div>
                     <div class="input-group mb-3">
                         <input type="password" id="password" name="password" class="form-control"
-                            placeholder="Password">
+                            placeholder="Password" style="background-color: rgba(255, 255, 255, 0.2); color: black; border: none;">
                         <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-lock"></span>
+                            <div class="input-group-text" style="background-color: rgba(255, 255, 255, 0.2);">
+                                <span class="fas fa-lock" style="color: black;"></span>
                             </div>
                         </div>
                         <small id="error-password" class="error-text text-danger"></small>
@@ -73,12 +73,14 @@
                         </div>
                         <!-- /.col -->
                         <div class="col-4">
-                            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                            <!-- Mengubah warna tombol menjadi emas -->
+                            <button type="submit" class="btn btn-primary btn-block" style="background-color: #FFD700; color: white; border: none;">Sign In</button>
                         </div>
                         <!-- /.col -->
                     </div>
                 </form>
-                <a href="{{ url('login') }}" class="text-center">Sudah punya akun</a>
+                <!-- Mengubah warna link menjadi emas -->
+                <a href="{{ url('login') }}" class="text-center" style="color: #FFD700;">Sudah punya akun?</a>
             </div>
             <!-- /.form-box -->
         </div><!-- /.card -->
@@ -97,89 +99,6 @@
     <!-- AdminLTE App -->
     <script src="{{ asset('adminlte/dist/js/adminlte.min.js') }}"></script>
 
-    <script> 
-    function modalAction(url = ''){ 
-        $('#myModal').load(url,function(){ 
-            $('#myModal').modal('show'); 
-        }); 
-    } 
- 
-var tableBarang; 
-$(document).ready(function(){ 
-    tableBarang = $('#table-barang').DataTable({ 
-        processing: true, 
-        serverSide: true, 
-        ajax: { 
-            "url": "{{ url('barang/list') }}", 
-            "dataType": "json", 
-            "type": "POST", 
-            "data": function (d) { 
-                d.filter_kategori = $('.filter_kategori').val(); 
-            } 
-        }, 
-        columns: [{ 
-                data: "No_Urut",  
-                className: "text-center", 
-                width: "5%", 
-                orderable: false, 
-                searchable: false 
-            },{ 
-                data: "barang_kode",  
-                className: "", 
-                width: "10%", 
-                orderable: true, 
-                searchable: true 
-            },{ 
-                data: "barang_nama",  
-                className: "", 
-                width: "37%", 
-                orderable: true, 
-                searchable: true, 
-            },{ 
-                data: "harga_beli",  
-                className: "", 
-                width: "10%", 
-                orderable: true, 
-                searchable: false, 
-                render: function(data, type, row){ 
-                    return new Intl.NumberFormat('id-ID').format(data); 
-                } 
-            },{ 
-                data: "harga_jual",  
-                className: "", 
-                width: "10%",
-                orderable: true, 
-                searchable: false, 
-                render: function(data, type, row){ 
-                    return new Intl.NumberFormat('id-ID').format(data); 
-                } 
-            },{ 
-                data: "kategori.kategori_nama",  
-                className: "", 
-                width: "14%", 
-                orderable: true, 
-                searchable: false 
-            },{ 
-                data: "aksi",  
-                className: "text-center", 
-                width: "14%", 
-                orderable: false, 
-                searchable: false 
-            } 
-        ] 
-    }); 
- 
-    $('#table-barang_filter input').unbind().bind().on('keyup', function(e){ 
-        if(e.keyCode == 13){ // enter key 
-            tableBarang.search(this.value).draw(); 
-        } 
-    }); 
- 
-    $('.filter_kategori').change(function(){ 
-        tableBarang.draw(); 
-    }); 
-}); 
-</script> 
 </body>
 
 </html>

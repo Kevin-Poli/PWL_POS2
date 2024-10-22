@@ -21,6 +21,7 @@
             background-position: center;
             color: white; /* Pastikan teks tetap terlihat */
         }
+        
     </style>
 </head>
 <body>

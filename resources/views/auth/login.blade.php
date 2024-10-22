@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,8 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Login Pengguna</title>
     <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{ asset('adminlte/plugins/fontawesome-free/css/all.min.css') }}">
     <!-- icheck bootstrap -->
@@ -17,60 +15,70 @@
     <link rel="stylesheet" href="{{ asset('adminlte/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('adminlte/dist/css/adminlte.min.css') }}">
-    
+    <style>
+        body {
+            background-image: url('{{ asset('https://img.lovepik.com/bg/20231220/Empty-Captivating-Photograph-of-an-Empty-Grocery-Store_2658107_wh860.jpg!/fw/860') }}'); /* Replace with your actual image URL */
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .login-box {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
 </head>
 
 <body class="hold-transition login-page">
     <div class="login-box">
         <!-- /.login-logo -->
-        <div class="card card-outline card-primary">
-            <div class="card-header text-center"><a href="{{ url('/') }}" class="h1"><b>Admin</b>LTE</a></div>
-            <div class="card-body">
-                <p class="login-box-msg">Sign in to start your session</p>
-                <form action="{{ url('login') }}" method="POST" id="form-login">
-                    @csrf
-                    <div class="input-group mb-3">
-                        <input type="text" id="username" name="username" class="form-control"
-                            placeholder="Username">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-envelope"></span>
-                            </div>
-                        </div>
-                        <small id="error-username" class="error-text text-danger"></small>
+        <div class="card card-outline card-primary" style="background-color: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px); border-radius: 10px; padding: 20px; box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);">
+    <div class="card-header text-center" style="color: white; font-size: 24px;"><b>Login</b></div>
+    <div class="card-body">
+        <form action="{{ url('login') }}" method="POST" id="form-login">
+            @csrf
+            <div class="input-group mb-3">
+                <input type="text" id="username" name="username" class="form-control"
+                    placeholder="Username" style="background-color: rgba(255, 255, 255, 0.2); color: white; border: none;">
+                <div class="input-group-append">
+                    <div class="input-group-text" style="background-color: rgba(255, 255, 255, 0.2);">
+                        <span class="fas fa-user" style="color: white;"></span>
                     </div>
-                    <div class="input-group mb-3">
-                        <input type="password" id="password" name="password" class="form-control"
-                            placeholder="Password">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-lock"></span>
-                            </div>
-                        </div>
-                        <small id="error-password" class="error-text text-danger"></small>
-                    </div>
-                    <div class="row">
-                        <div class="col-8">
-                            <div class="icheck-primary">
-                                <input type="checkbox" id="remember"><label for="remember">Remember Me</label>
-                            </div>
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-4">
-                            <button type="submit" class="btn btn-primary btn-block">Sign In</button>
-                        </div>
-                        <!-- /.col -->
-                    </div>
-                    <hr>
-                    <div class="row">
-                        Don't have account?<a href="{{ url('register') }}">register</a>
-                    </div>
-                </form>
+                </div>
             </div>
-            <!-- /.card-body -->
-        </div>
-        <!-- /.card -->
+            <div class="input-group mb-3">
+                <input type="password" id="password" name="password" class="form-control"
+                    placeholder="Password" style="background-color: rgba(255, 255, 255, 0.2); color: white; border: none;">
+                <div class="input-group-append">
+                    <div class="input-group-text" style="background-color: rgba(255, 255, 255, 0.2);">
+                        <span class="fas fa-lock" style="color: white;"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-8">
+                    <div class="icheck-primary">
+                        <input type="checkbox" id="remember">
+                        <label for="remember" style="color: white;">Remember Me</label>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <!-- Mengubah warna tombol menjadi emas -->
+                    <button type="submit" class="btn btn-primary btn-block" style="background-color: #FFD700; color: white; border: none;">Login</button>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <span style="color: white;">Don't have an account? <a href="{{ url('register') }}" style="color: #FFD700;">Register</a></span>
+            </div>
+        </form>
     </div>
+</div>
+
+
     <!-- /.login-box -->
 
     <!-- jQuery -->
@@ -84,8 +92,6 @@
     <script src="{{ asset('adminlte/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('adminlte/dist/js/adminlte.min.js') }}"></script>
-
-
 
     <script>
         $.ajaxSetup({
